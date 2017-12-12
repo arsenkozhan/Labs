@@ -1,0 +1,79 @@
+#include "stdafx.h"
+#include <stdlib.h>
+#include "conio.h"
+
+typedef struct Node {
+	int value;
+	struct Node *next;
+} Node;
+static void reverse(struct Node** head_ref)
+{
+	struct Node* prev = NULL;
+	struct Node* current = *head_ref;
+	struct Node* next;
+	while (current != NULL)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+	*head_ref = prev;
+}
+Node *addNodeAtBegining(Node *head, int v) {
+	Node *newNode = (Node*)malloc(sizeof(Node));
+	newNode->value = v;
+	newNode->next = head;
+	return newNode;
+}
+void printList(Node*head) {
+	Node *node = head;
+	while (node != NULL) {
+		printf("%d", node->value);
+		node = node->next;
+		printf("\n \n");
+	}
+}
+void findMinNode(Node*head) {
+	int v;
+	Node *node = head;
+	Node *minNode = head;
+	int min = 0;
+	while (node != NULL) {
+		if (node->value < min) {
+			min = node->value;
+			minNode = node;
+		}
+		node = node->next;
+	}
+	printf("Min value:");
+	printf("%d", minNode->value);
+	printf("\n");
+	Node *newNode = (Node*)malloc(sizeof(Node));
+	printf("Print value of New Node:");
+	scanf_s("%d", &v);
+	newNode->value = v;
+	newNode->next = minNode->next;
+	minNode->next = newNode;
+	printf("\n");
+}
+
+int main() {
+	Node *head = NULL;
+	int k;
+	int a;
+	printf("Print number of Nodes:");
+	scanf_s("%d", &k);
+	while (k > 0) {
+		printf("Print value of Node:");
+		scanf_s("%d", &a);
+		head = addNodeAtBegining(head, a);
+		k--;
+	}
+	printf("\nValue in list: \n");
+	reverse(&head);
+	printList(head);
+	findMinNode(head);
+	printList(head);
+	_gettch();
+}
